@@ -1,0 +1,94 @@
+[gd_scene load_steps=17 format=2]
+
+[ext_resource path="res://sky.gd" type="Script" id=1]
+[ext_resource path="res://skyGradientDay.jpg" type="Texture" id=2]
+[ext_resource path="res://skyGradientMorning.jpg" type="Texture" id=3]
+[ext_resource path="res://skyGradientEvening.jpg" type="Texture" id=4]
+[ext_resource path="res://skyGradientNight.jpg" type="Texture" id=5]
+[ext_resource path="res://timeLabel.gd" type="Script" id=6]
+[ext_resource path="res://Roboto_Mono/RobotoMono-Bold.ttf" type="DynamicFontData" id=7]
+[ext_resource path="res://Button.gd" type="Script" id=8]
+[ext_resource path="res://Fire.tscn" type="PackedScene" id=9]
+
+[sub_resource type="Curve" id=1]
+_data = [ Vector2( 0, 0 ), 0.0, 5.74454, 0, 1, Vector2( 0.171293, 0.984 ), 0.0, 0.0, 0, 0, Vector2( 0.697224, 0 ), -0.575256, 0.0, 0, 0 ]
+
+[sub_resource type="Curve" id=2]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 1, Vector2( 1, 1 ), 0.0, 0.0, 1, 0 ]
+
+[sub_resource type="Curve" id=3]
+_data = [ Vector2( 0, 0.5022 ), 0.0, -2.64359, 0, 0, Vector2( 0.209642, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.64244, 0 ), 0.0, 2.94189, 0, 1, Vector2( 0.932798, 0.8542 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.5022 ), -5.23791, 0.0, 1, 0 ]
+
+[sub_resource type="Curve" id=4]
+_data = [ Vector2( 0, 0.9136 ), 0.0, 2.48909, 0, 0, Vector2( 0.319211, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.752009, 0 ), 0.0, 3.71949, 0, 1, Vector2( 1, 0.9224 ), 3.71949, 0.0, 1, 0 ]
+
+[sub_resource type="DynamicFontData" id=5]
+font_path = "res://Roboto_Mono/RobotoMono-Light.ttf"
+
+[sub_resource type="DynamicFont" id=6]
+size = 150
+font_data = SubResource( 5 )
+
+[sub_resource type="DynamicFont" id=7]
+size = 28
+font_data = ExtResource( 7 )
+
+[node name="Node2D" type="Node2D"]
+
+[node name="sky" type="Container" parent="."]
+editor/display_folded = true
+script = ExtResource( 1 )
+morningVisibilityCurve = SubResource( 1 )
+dayVisibilityCurve = SubResource( 2 )
+eveningVisibilityCurve = SubResource( 3 )
+nightVisibilityCurve = SubResource( 4 )
+
+[node name="Timer" type="Timer" parent="sky"]
+
+[node name="day" type="Sprite" parent="sky"]
+position = Vector2( 542.558, 962.545 )
+scale = Vector2( 1.06689, 1.88718 )
+texture = ExtResource( 2 )
+
+[node name="morning" type="Sprite" parent="sky"]
+position = Vector2( 542.558, 962.545 )
+scale = Vector2( 1.06689, 1.88718 )
+texture = ExtResource( 3 )
+
+[node name="evening" type="Sprite" parent="sky"]
+modulate = Color( 1, 1, 1, 0 )
+position = Vector2( 542.558, 958.94 )
+scale = Vector2( 1.06689, 1.89422 )
+texture = ExtResource( 4 )
+
+[node name="night" type="Sprite" parent="sky"]
+position = Vector2( 542.558, 957.138 )
+scale = Vector2( 1.07393, 1.8907 )
+texture = ExtResource( 5 )
+
+[node name="timeLabel" type="Label" parent="sky"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -5.21008
+margin_top = 84.1849
+margin_right = 1086.79
+margin_bottom = 436.185
+custom_fonts/font = SubResource( 6 )
+text = "12:00"
+align = 1
+valign = 1
+script = ExtResource( 6 )
+
+[node name="Button" type="Button" parent="."]
+margin_left = 344.348
+margin_top = 1727.3
+margin_right = 744.348
+margin_bottom = 1797.3
+custom_fonts/font = SubResource( 7 )
+text = "Toggle Time"
+script = ExtResource( 8 )
+
+[node name="Fire" parent="." instance=ExtResource( 9 )]
+position = Vector2( 542.208, 1539.43 )
+scale = Vector2( 2, 2 )
+[connection signal="timeout" from="sky/Timer" to="sky" method="_on_Timer_timeout"]
