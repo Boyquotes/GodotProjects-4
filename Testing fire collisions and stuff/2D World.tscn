@@ -1,0 +1,44 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Log.gd" type="Script" id=1]
+[ext_resource path="res://ImageResources/log.png" type="Texture" id=2]
+[ext_resource path="res://Campfire.gd" type="Script" id=3]
+[ext_resource path="res://ImageResources/campfire.png" type="Texture" id=4]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 256, 128 )
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 192.0
+
+[node name="2D World" type="Node2D"]
+
+[node name="Area2D Log" type="Area2D" parent="."]
+position = Vector2( 160, 384 )
+scale = Vector2( 0.125, 0.125 )
+script = ExtResource( 1 )
+
+[node name="Log" type="Sprite" parent="Area2D Log"]
+z_index = 1
+texture = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D Log"]
+z_index = 10
+shape = SubResource( 1 )
+
+[node name="Area2D Campfire" type="Area2D" parent="."]
+position = Vector2( 160, 528 )
+scale = Vector2( 0.25, 0.25 )
+input_pickable = false
+space_override = 1
+script = ExtResource( 3 )
+
+[node name="Campfire" type="Sprite" parent="Area2D Campfire"]
+texture = ExtResource( 4 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D Campfire"]
+z_index = 10
+shape = SubResource( 2 )
+[connection signal="input_event" from="Area2D Log" to="Area2D Log" method="_on_KinematicBody2D_input_event"]
+[connection signal="area_entered" from="Area2D Campfire" to="Area2D Log" method="_on_Area2D_area_entered"]
+[connection signal="area_exited" from="Area2D Campfire" to="Area2D Log" method="_on_Area2D_area_exited"]
